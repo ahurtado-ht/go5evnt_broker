@@ -7,9 +7,9 @@ windows (recomendacion: no instalar en windows)
 BROKER DE EVENTOS
 ========================================
 
-
 -  tener una vm linux
 -  descargar kafka
+		wget http://www.apache.org/dist/kafka/0.9.0.0/kafka_2.11-0.9.0.0.tgz
    instalar kafka en linux
    - (kafka_2.11-0.9.0.0.tgz)
    - tar -xvf kafka_2.11-0.9.0.0.tgz
