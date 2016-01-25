@@ -17,23 +17,50 @@ BROKER DE EVENTOS
 maquina de instalacion: 
  -> 192.168.90.30 (vagrant at: /.work/kafka_2.11-0.8.2.2)
  
+ 
+#actualizar para que reconozca por ip 
+# 
+#updating config/server.properties advertised.host.name to the public IP address of the VM.
+#	esto es, adicionar lo siguiente:
+#	advertised.host.name=192.168.0.13 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 iniciar zoopeper
-  cd /.work/kafka_2.11-0.8.2.2
-  nohup bin/zookeeper-server-start.sh config/zookeeper.properties &
+  cd /.work/kafka_2.11-0.9.0.0
+  nohup ./bin/zookeeper-server-start.sh config/zookeeper.properties &
 
 iniciar kafka
-  cd /.work/kafka_2.11-0.8.2.2
+  cd /.work/kafka_2.11-0.9.0.0
   nohup ./bin/kafka-server-start.sh config/server.properties &
 
 crear un topico
-  cd /.work/kafka_2.11-0.8.2.2
+  cd /.work/kafka_2.11-0.9.0.0
   ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic my-topic-test
   
 ver los topicos
   ./bin/kafka-topics.sh --list --zookeeper localhost:2181
+  
+ver un topico en especifico
+ ./bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-topic-test
  
 iniciar un consumer 
  ./bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic my-topic-test --from-beginning
+
+eliminar un consumer
+# adicionar la propiedad del archvo de kafka config/server.properties
+# delete.topic.enable=true
+# luego ejecutar
+# ./bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic my-topic-test
+# eliminar /tmp/zookeper
+# eliminar /tmp/kafla-logs
  
 
 #iniciar un producer [escribe por comandos]
@@ -53,8 +80,16 @@ iniciar un consumer
 		  hostname
 		luego con el nobre dad ejecutar
 		 sudo vi /etc/hosts
-		 adicionar entrada con la ip
+		 adicionar entrada con la ip en el server
+		 # localhost.localdomain 127.0.0.1 192.168.90.30
+		 
+		 # en los clientes adicionar la ubicacion del server
 		 192.168.90.30 srvhpridentidad
+		 10.0.2.15 fedora23_ht
+		 # nota; si es una vm y esta en modo nat, mapear tambien 127.0.0.1 a esa maquina
+		 # es decir, quedaria: 
+		 127.0.0.1       localhost localhost.localdomain fedora23_ht
+
 	en windows
 		modificar el mismo archivo en %windir%/system32/drivers/etc/hosts
 
