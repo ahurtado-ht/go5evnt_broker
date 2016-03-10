@@ -18,15 +18,13 @@ maquina de instalacion:
  -> 192.168.1.40 (vagrant at: /.work/kafka_2.11-0.8.2.2)
  
 #actualizar para que reconozca por ip 
+
+```
 # 
 #updating config/server.properties advertised.host.name to the public IP address of the VM.
 #	esto es, adicionar lo siguiente:
 #	advertised.host.name=192.168.0.13 
- 
- 
- 
- 
- 
+``` 
  
  
 iniciar zoopeper
@@ -63,16 +61,22 @@ iniciar un consumer
 ```
 
 eliminar un consumer
+
+```
 # adicionar la propiedad del archvo de kafka config/server.properties
 # delete.topic.enable=true
 # luego ejecutar
 # ./bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic bovedaevents
 # eliminar /tmp/zookeper
 # eliminar /tmp/kafla-logs
+```
  
 
+```
 #iniciar un producer [escribe por comandos]
 # ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic bovedaevents
+```
+
 
  kafka escuha en el puerto 9092.
  zookeeper escucha en el puerto 2181 
