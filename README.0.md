@@ -15,8 +15,7 @@ BROKER DE EVENTOS
    - tar -xvf kafka_2.11-0.9.0.0.tgz
    cd /.work/kafka_2.11-0.9.0.0
 maquina de instalacion: 
- -> 192.168.90.30 (vagrant at: /.work/kafka_2.11-0.8.2.2)
- 
+ -> 192.168.1.40 (vagrant at: /.work/kafka_2.11-0.8.2.2)
  
 #actualizar para que reconozca por ip 
 # 
@@ -30,41 +29,50 @@ maquina de instalacion:
  
  
  
- 
- 
- 
 iniciar zoopeper
+```
   cd /.work/kafka_2.11-0.9.0.0
   nohup ./bin/zookeeper-server-start.sh config/zookeeper.properties &
+```
 
 iniciar kafka
+```
   cd /.work/kafka_2.11-0.9.0.0
   nohup ./bin/kafka-server-start.sh config/server.properties &
+```
 
 crear un topico
+```
   cd /.work/kafka_2.11-0.9.0.0
-  ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic my-topic-test
+  ./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic bovedaevents
+```
   
 ver los topicos
+```
   ./bin/kafka-topics.sh --list --zookeeper localhost:2181
+```
   
 ver un topico en especifico
- ./bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-topic-test
+```
+ ./bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic bovedaevents
+```
  
 iniciar un consumer 
- ./bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic my-topic-test --from-beginning
+```
+ ./bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic bovedaevents --from-beginning
+```
 
 eliminar un consumer
 # adicionar la propiedad del archvo de kafka config/server.properties
 # delete.topic.enable=true
 # luego ejecutar
-# ./bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic my-topic-test
+# ./bin/kafka-topics.sh --zookeeper localhost:2181 --delete --topic bovedaevents
 # eliminar /tmp/zookeper
 # eliminar /tmp/kafla-logs
  
 
 #iniciar un producer [escribe por comandos]
-# ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic my-topic-test 
+# ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic bovedaevents
 
  kafka escuha en el puerto 9092.
  zookeeper escucha en el puerto 2181 
@@ -98,14 +106,20 @@ eliminar un consumer
  
  
 configurar la maquina con iptables
+```
  sudo vi /etc/sysconfig/iptables
+```
  
 # zookeper & kafka ports
 # abrir puertos / configurar iptables (si no esta instalado)
+```
  sudo dnf install -y iptables-services
  sudo systemctl enable iptables
  sudo systemctl start iptables
+```
 
+#firewall configurations
+```
 # firewall-cmd --zone=public --add-port=2181/tcp --permanent
 # firewall-cmd --zone=public --add-port=9092/tcp --permanent
 #### forma 1 
@@ -114,12 +128,14 @@ configurar la maquina con iptables
 #### forma 2 
  -A INPUT -p tcp --dport 2181 -j ACCEPT
  -A INPUT -p tcp --dport 9092 -j ACCEPT
+```
 
 sudo service iptables restart 
+```
  # actualziar reglas
  firewall-cmd --reload
  # confgurar puertos en virtualbox (requiere apagar la maquina y configurar http://www.howtogeek.com/122641/how-to-forward-ports-to-a-virtual-machine-and-use-it-as-a-server/)
-
+```
 
 
 ===========================
